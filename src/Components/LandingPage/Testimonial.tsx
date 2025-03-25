@@ -20,7 +20,7 @@ const Testimonial = () => {
     </div>
     <div className="container">
       <div className="row align-items-center">
-        <div className="col-lg-6 testimonial-wrap-2">
+        <div className="col-lg-8 mx-auto testimonial-wrap-2">
           <div className="testimonial-block style-2  gray-bg ">
           
             <div className="testimonial-thumb">
@@ -61,7 +61,7 @@ const Testimonial = () => {
             </div>
             <RiDoubleQuotesR className='text-lg lightpink float-end'/>
           </div>
-          <div className="testimonial-block style-2  gray-bg">
+          {/* <div className="testimonial-block style-2  gray-bg">
             <div className="testimonial-thumb">
               <Image src="/test-thumb4.jpg"  height={100} width={100} alt='' className="img-fluid" />
             </div>
@@ -86,7 +86,7 @@ const Testimonial = () => {
               </p>
             </div>
             <RiDoubleQuotesR className='text-lg lightpink float-end'/>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

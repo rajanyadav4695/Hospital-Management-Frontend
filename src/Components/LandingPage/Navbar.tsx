@@ -1,5 +1,4 @@
-'use client'
-import "bootstrap/dist/js/bootstrap.bundle.js"
+
 import React from 'react'
 import Image from "next/image";
 import { IoIosMail } from "react-icons/io";

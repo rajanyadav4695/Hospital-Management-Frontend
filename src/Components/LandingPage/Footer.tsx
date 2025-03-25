@@ -26,7 +26,7 @@ const Footer = () => {
           <ul className="list-inline footer-socials mt-4">
             <li className="list-inline-item"><a href="https://www.facebook.com"><FaFacebookF className='fs-5'/></a></li>
             <li className="list-inline-item"><a href="https://twitter.com"><FaXTwitter className='fs-5'/></a></li>
-            <li className="list-inline-item"><a href="https://www.youtube.com/themefisher/"><FaYoutube className='fs-5'/></a></li>
+            <li className="list-inline-item"><a href="https://www.youtube.com"><FaYoutube className='fs-5'/></a></li>
           </ul>
         </div>
       </div>
