@@ -1,9 +1,9 @@
+import React from 'react';
+import Image from 'next/image';
+import { IoIosMail } from 'react-icons/io';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { IoCall } from 'react-icons/io5';
 
-import React from 'react'
-import Image from "next/image";
-import { IoIosMail } from "react-icons/io";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
 const Navbar = () => {
   return (
     <div>
@@ -13,27 +13,22 @@ const Navbar = () => {
             <div className="row align-items-center">
               <div className="col-lg-6">
                 <ul className="top-bar-info list-inline-item pl-0 mb-0">
-                  <li className="list-inline-item ">
-                    <a
-                      href="mailto:support@gmail.com"
-                      className="text-light text-decoration-none"
-                    >
-                      <IoIosMail className='me-1'/> 
+                  <li className="list-inline-item">
+                    <a href="mailto:support@gmail.com" className="text-light text-decoration-none">
+                      <IoIosMail className="me-1" />
                       support@novena.com
                     </a>
                   </li>
                   <li className="list-inline-item">
-                  <FaMapMarkerAlt className='me-1'/>
-                    Address Ta-134/A, New York, USA{" "}
+                    <FaMapMarkerAlt className="me-1" />
+                    Address Ta-134/A, New York, USA
                   </li>
                 </ul>
               </div>
               <div className="col-lg-6 text-center">
                 <div className="text-lg-right top-right-bar mt-2 mt-lg-0">
-                  <a
-                    href="tel:+23-345-67890"
-                    className="text-light text-decoration-none"
-                  ><IoCall className='me-1 fs-5'/>
+                  <a href="tel:+23-345-67890" className="text-light text-decoration-none">
+                    <IoCall className="me-1 fs-5" />
                     <span>Call Now : </span>
                     <span className="h4">823-4565-13456</span>
                   </a>
@@ -42,30 +37,31 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+
+        {/* Navbar */}
         <nav className="navbar navbar-expand-lg navigation" id="navbar">
           <div className="container">
             <a className="navbar-brand" href="#">
               <Image
                 src="/logo.png" // Path to the logo in the public folder
-                alt="Logo" // Alt text for accessibility
-                width={200} // Set the width of the logo
-                height={60} // Set the height of the logo
-                className="d-inline-block align-text-top" // Optional: Add Bootstrap classes for alignment
-                
+                alt="Logo"
+                width={200}
+                height={60}
+                className="d-inline-block align-text-top"
               />
             </a>
             <button
-      className="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon" />
-    </button>
-            <div className="collapse navbar-collapse" id="navbarmain">
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item active">
                   <a className="nav-link" href="index.html">
@@ -100,10 +96,7 @@ const Navbar = () => {
                       </a>
                     </li>
                     <li>
-                      <a
-                        className="dropdown-item"
-                        href="department-single.html"
-                      >
+                      <a className="dropdown-item" href="department-single.html">
                         Department Single
                       </a>
                     </li>
