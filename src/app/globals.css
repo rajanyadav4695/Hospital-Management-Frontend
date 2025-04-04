@@ -1413,7 +1413,7 @@
     height: 3px;
   }
   
-  .widget h4 {
+  .font,.widget h4 {
     color: #223a66;
   }
   
@@ -1503,6 +1503,11 @@
     opacity: 1;
   }
   
-  .loginf{
-    background: #f3fffb !important;
+  .loginpage{
+    position: relative;
+    overflow: hidden;
+    background: url("../../public/form-bg.jpg") no-repeat;
+    background-size: cover;
+    min-height: 550px;
   }
+ 
