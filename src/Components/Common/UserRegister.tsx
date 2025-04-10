@@ -1,253 +1,250 @@
-"use client"
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import Link from 'next/link'
-import { FaUser, FaEnvelope, FaLock, FaIdCard, FaStethoscope, FaCalendarAlt, FaTransgender, FaPhone, FaMapMarker, FaTint, FaBookMedical } from 'react-icons/fa'
+"use client";
+import React, { useEffect, useState } from "react";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { getDepartmentService, userAuthRegister } from "@/Services";
+import { swalFire } from "@/Helpers/swalFire";
+import Link from "next/link";
+import { userSession } from "@/Helpers/userSession";
 
-const schema = yup.object().shape({
-  userType: yup.string().oneOf(["doctor", "patient"], "Invalid User type").required("User type is required"),
-  name: yup.string().required("Name is required"),
-  email: yup.string().email("Invalid email address").required("Email is required"),
-  gender: yup.string().required("Gender is required"),
-  contact: yup.string().matches(/^[0-9]{10}$/, "Invalid contact number").required("Contact is required"),
-  // Conditional fields
-  ...yup.lazy((values) => {
-    if (values.userType === 'doctor') {
-      return yup.object().shape({
-        departmentId: yup.string().required("Department ID is required"),
-        department: yup.string().required("Department is required"),
-        address: yup.string().required("Address is required"),
-        availableDays: yup.array().min(1, "Select at least one available day"),
-        token: yup.number().required("Token fee is required"),
-        specialist: yup.string().required("Specialization is required"),
-        experience: yup.number().positive("Experience must be positive").required("Experience is required"),
-        qualification: yup.string().required("Qualification is required")
-      })
-    }
-    if (values.userType === 'patient') {
-      return yup.object().shape({
-        age: yup.number().positive("Age must be positive").required("Age is required"),
-        bloodGroup: yup.string().required("Blood group is required"),
-        aadharNo: yup.string().matches(/^[0-9]{12}$/, "Invalid Aadhar number").required("Aadhar is required")
-      })
-    }
-    return yup.object()
-  })
-})
+// React Icons
+import { FaUser, FaEnvelope, FaPhone, FaTransgender, FaBriefcase, FaGraduationCap, FaMoneyBillWave, FaMapMarkerAlt } from "react-icons/fa";
+import { MdOutlineAttachFile } from "react-icons/md";
+import { GiDoctorFace } from "react-icons/gi";
+
+const doctorSchema = yup.object().shape({
+  name: yup.string().min(2).max(50).required("Name is required"),
+  departmentId: yup.string().required("Department is required"),
+  specialist: yup.string().min(2).max(100).required("Expertise is required"),
+  qualifications: yup.string().min(2).max(100).required("Qualifications are required"),
+  contact: yup.string().matches(/\d{10}/, "Contact must be a 10-digit number").required(),
+  experience: yup.string().required("Experience is required"),
+  fees: yup.number().typeError("Fees must be a number").min(0).required(),
+  address: yup.string().min(5).max(200).required("Address is required"),
+  gender: yup.string().oneOf(["Male", "Female", "Other"], "Invalid gender").required(),
+  email: yup.string().email("Invalid email address").required(),
+  profile: yup.mixed().test("fileSize", "File is required", (value: any) => value?.length > 0).required(),
+  userType: yup.string().oneOf(["doctor", "patient"], "Invalid User Type").required(),
+  availableDays: yup.array().of(
+    yup.string().oneOf(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
+  ).min(1, "Please select at least one day").required("Required field"),
+});
+
+const patientSchema = yup.object().shape({
+  name: yup.string().min(2).max(50).required("Name is required"),
+  email: yup.string().email("Invalid email address").required(),
+  gender: yup.string().oneOf(["Male", "Female", "Other"], "Invalid gender").required(),
+  contact: yup.string().matches(/\d{10}/, "Contact must be a 10-digit number").required(),
+  age: yup.number().typeError("Age must be a number").min(18).max(100).required(),
+  profile: yup.mixed().test("fileSize", "File is required", (value: any) => value?.length > 0).required(),
+  userType: yup.string().oneOf(["doctor", "patient"], "Invalid User Type").required(),
+});
+
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export const UserRegister = () => {
-  const [userType, setUserType] = useState('')
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  const [department, setDepartment] = useState([]);
+  const [userType, setUserType] = useState("patient");
+  const isDoctor = userType === "doctor";
+  const userData = userSession();
+  const token = userData.jwtToken;
+
+  const getDepartment = async () => {
+    const result = await getDepartmentService(token);
+    setDepartment(result?.data);
+  };
+
+  useEffect(() => {
+    getDepartment();
+  }, []);
+
+  const schema: any = isDoctor ? doctorSchema : patientSchema;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  }: any = useForm({
     resolver: yupResolver(schema),
-  })
+  });
 
-  const onSubmit = (data: any) => {
-    console.log(data)
-    // Handle registration logic here
-  }
+  const registerFunction = async (data: any) => {
+    const formData = new FormData();
+    if (data.availableDays) {
+      data.availableDays.forEach((day: any) => {
+        formData.append("availableDays", day);
+      });
+    }
 
-  const currentUserType = watch('userType')
+    for (const key in data) {
+      if (key !== "availableDays" && key !== "profile") {
+        formData.append(key, data[key]);
+      }
+    }
+
+    if (data.profile && data.profile[0]) {
+      formData.append("profile", data.profile[0]);
+    }
+
+    const res = await userAuthRegister(formData);
+    swalFire("Auth", res.message, res?.code === 201 ? "success" : "error");
+  };
 
   return (
     <div className="container-fluid min-vh-100 d-flex align-items-center loginpage">
-      <div className="row justify-content-center w-100">
-        <div className="col-md-8 col-lg-6">
-          <div className="card border-0" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)' }}>
-            <div className="card-header text-white text-center py-4 border-0" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
-              <h3 className="mb-0">
-                <FaUser className="me-2" />
-                User Registration
-              </h3>
-            </div>
-            <div className="card-body p-4">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {/* User Type Selection */}
-                <div className="mb-4">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                      <FaUser className="text-white" />
-                    </span>
-                    <select
-                      {...register("userType")}
-                      className="form-control bg-transparent text-white"
-                      style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                      onChange={(e) => setUserType(e.target.value)}
-                    >
-                      <option value="">Select User Type</option>
-                      <option value="doctor" className="text-dark">Doctor</option>
-                      <option value="patient" className="text-dark">Patient</option>
-                    </select>
-                  </div>
-                  {errors.userType && <small className="text-white">{errors.userType.message}</small>}
-                </div>
-
-                {/* Common Fields */}
-                <div className="mb-4">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                      <FaUser className="text-white" />
-                    </span>
-                    <input
-                      {...register("name")}
-                      className="form-control bg-transparent text-white"
-                      placeholder="Full Name"
-                      style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                    />
-                  </div>
-                  {errors.name && <small className="text-white">{errors.name.message}</small>}
-                </div>
-
-                <div className="mb-4">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                      <FaEnvelope className="text-white" />
-                    </span>
-                    <input
-                      {...register("email")}
-                      className="form-control bg-transparent text-white"
-                      placeholder="Email Address"
-                      style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                    />
-                  </div>
-                  {errors.email && <small className="text-white">{errors.email.message}</small>}
-                </div>
-
-                <div className="mb-4">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                      <FaTransgender className="text-white" />
-                    </span>
-                    <select
-                      {...register("gender")}
-                      className="form-control bg-transparent text-white"
-                      style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                    >
-                      <option value="">Select Gender</option>
-                      <option value="male" className="text-dark">Male</option>
-                      <option value="female" className="text-dark">Female</option>
-                      <option value="other" className="text-dark">Other</option>
-                    </select>
-                  </div>
-                  {errors.gender && <small className="text-white">{errors.gender.message}</small>}
-                </div>
-
-                <div className="mb-4">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                      <FaPhone className="text-white" />
-                    </span>
-                    <input
-                      {...register("contact")}
-                      className="form-control bg-transparent text-white"
-                      placeholder="Contact Number"
-                      style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                    />
-                  </div>
-                  {errors.contact && <small className="text-white">{errors.contact.message}</small>}
-                </div>
-
-                {/* Doctor Specific Fields */}
-                {currentUserType === 'doctor' && (
-                  <>
-                    <div className="mb-4">
-                      <div className="input-group">
-                        <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                          <FaIdCard className="text-white" />
-                        </span>
-                        <input
-                          {...register("departmentId")}
-                          className="form-control bg-transparent text-white"
-                          placeholder="Department ID"
-                          style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                        />
-                      </div>
-                      {errors.departmentId && <small className="text-white">{errors.departmentId.message}</small>}
-                    </div>
-
-                    <div className="mb-4">
-                      <div className="input-group">
-                        <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                          <FaStethoscope className="text-white" />
-                        </span>
-                        <input
-                          {...register("department")}
-                          className="form-control bg-transparent text-white"
-                          placeholder="Department"
-                          style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                        />
-                      </div>
-                      {errors.department && <small className="text-white">{errors.department.message}</small>}
-                    </div>
-
-                    {/* Add other doctor fields similarly */}
-                  </>
-                )}
-
-                {/* Patient Specific Fields */}
-                {currentUserType === 'patient' && (
-                  <>
-                    <div className="mb-4">
-                      <div className="input-group">
-                        <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                          <FaCalendarAlt className="text-white" />
-                        </span>
-                        <input
-                          {...register("age")}
-                          className="form-control bg-transparent text-white"
-                          placeholder="Age"
-                          type="number"
-                          style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                        />
-                      </div>
-                      {errors.age && <small className="text-white">{errors.age.message}</small>}
-                    </div>
-
-                    <div className="mb-4">
-                      <div className="input-group">
-                        <span className="input-group-text" style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
-                          <FaTint className="text-white" />
-                        </span>
-                        <select
-                          {...register("bloodGroup")}
-                          className="form-control bg-transparent text-white"
-                          style={{ border: '1px solid rgba(255, 255, 255, 0.2)' }}
-                        >
-                          <option value="">Select Blood Group</option>
-                          <option value="A+" className="text-dark">A+</option>
-                          <option value="A-" className="text-dark">A-</option>
-                          <option value="B+" className="text-dark">B+</option>
-                          <option value="B-" className="text-dark">B-</option>
-                          <option value="AB+" className="text-dark">AB+</option>
-                          <option value="AB-" className="text-dark">AB-</option>
-                          <option value="O+" className="text-dark">O+</option>
-                          <option value="O-" className="text-dark">O-</option>
-                        </select>
-                      </div>
-                      {errors.bloodGroup && <small className="text-white">{errors.bloodGroup.message}</small>}
-                    </div>
-
-                    {/* Add other patient fields similarly */}
-                  </>
-                )}
-
-                <button 
-                  type="submit" 
-                  className="btn btn-light btn-rounded w-100 mb-3"
-                  style={{ background: 'rgba(255, 255, 255, 0.2)', border: 'none' }}
-                >
-                  Register
-                </button>
-
-                <div className="text-center text-white">
-                  Already have an account? <Link href="/login" className="text-white">Login here</Link>
-                </div>
-              </form>
-            </div>
+      <div className="col-lg-6 mx-auto text-light m-3 rounded-3 p-5 card border-2" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)' }}>
+        <h3 className="font mx-auto">Registration</h3>
+        <form onSubmit={handleSubmit(registerFunction)}>
+          <div className="mb-4">
+            <label className="me-2 font"><b>Register as:</b></label>
+            <select
+              {...register("userType")}
+              className="form-select rounded-0 text-dark myform-select d-inline-block mt-1 mb-3 fb"
+              value={userType}
+              onChange={(e) => setUserType(e.target.value)}
+            >
+              <option value="doctor">Doctor</option>
+              <option value="patient">Patient</option>
+            </select>
+            {errors.userType && <div className="text-danger fw-bold">{errors.userType?.message}</div>}
           </div>
-        </div>
+
+          {/* Patient Form */}
+          {userType === "patient" && (
+            <>
+              <div className="mb-4 input-group">
+                <span className="input-group-text"><FaUser className="font fb"/></span>
+                <input {...register("name")} className="form-control fb" placeholder="Enter your name" />
+              </div>
+              {errors.name && <div className="text-danger fw-bold">{errors.name.message}</div>}
+
+              <div className="mb-4 input-group">
+                <span className="input-group-text"><FaEnvelope className="font fb"/></span>
+                <input {...register("email")} className="form-control fb" placeholder="Enter your email" />
+              </div>
+              {errors.email && <div className="text-danger fw-bold">{errors.email.message}</div>}
+
+              <div className="mb-4 input-group">
+                <span className="input-group-text"><FaTransgender className="font fb"/></span>
+                <select {...register("gender")} className="form-control bg-transparent font fb">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              {errors.gender && <div className="text-danger fw-bold">{errors.gender.message}</div>}
+
+              <div className="mb-4 input-group">
+                <span className="input-group-text"><FaPhone className="font"/></span>
+                <input {...register("contact")} className="form-control fb" placeholder="Enter contact number "/>
+              </div>
+              {errors.contact && <div className="text-danger fw-bold">{errors.contact.message}</div>}
+
+              <div className="mb-4 input-group">
+                <span className="input-group-text font">Age</span>
+                <input {...register("age")} className="form-control fb" type="number" placeholder="Enter your age" />
+              </div>
+              {errors.age && <div className="text-danger fw-bold">{errors.age.message}</div>}
+
+              <div className="mb-4 input-group">
+                <span className="input-group-text"><MdOutlineAttachFile className="font"/></span>
+                <input {...register("profile")} className="form-control fb" type="file" />
+              </div>
+              {errors.profile && <div className="text-danger fw-bold">{errors.profile.message}</div>}
+
+              <div className="mb-4">
+                <Link href="/login" className="text-decoration-none font small">Already have an Account?</Link>
+              </div>
+
+              <input type="submit" value="Register" className="btn btn-main btn-rounded w-100 mb-3" />
+            </>
+          )}
+
+          {/* Doctor Form */}
+          {userType === "doctor" && (
+            <>
+              <div className="row">
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaUser className="font"/></span>
+                  <input {...register("name")} className="form-control fb" placeholder="Enter your name" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><GiDoctorFace className="font"/></span>
+                  <select {...register("departmentId")} className="form-control font fb">
+                    <option value="">Select Department</option>
+                    {department.map((item: any) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaBriefcase className="font"/></span>
+                  <input {...register("specialist")} className="form-control fb" placeholder="Specialization" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaGraduationCap className="font"/></span>
+                  <input {...register("qualifications")} className="form-control fb" placeholder="Qualifications" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaPhone className="font"/></span>
+                  <input {...register("contact")} className="form-control fb" placeholder="Contact number" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text font">Yrs</span>
+                  <input {...register("experience")} className="form-control fb" type="number" placeholder="Experience" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaMoneyBillWave className="font"/></span>
+                  <input {...register("fees")} className="form-control fb" type="number" placeholder="Fees" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaMapMarkerAlt className="font"/></span>
+                  <input {...register("address")} className="form-control fb" placeholder="Address" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaEnvelope className="font"/></span>
+                  <input {...register("email")} className="form-control fb" placeholder="Email" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><MdOutlineAttachFile className="font"/></span>
+                  <input {...register("profile")} className="form-control fb" type="file" />
+                </div>
+
+                <div className="col-md-6 mb-4 input-group">
+                  <span className="input-group-text"><FaTransgender className="font"/></span>
+                  <select {...register("gender")} className="form-control fb">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="col-md-12 mb-4 font">
+                  {days.map((day, index) => (
+                    <label className="me-2" key={index}>
+                      <input type="checkbox" {...register("availableDays")} value={day} className="me-1" />
+                      {day}
+                    </label>
+                  ))}
+                  {errors.availableDays && <div className="text-danger fw-bold">{errors.availableDays.message}</div>}
+                </div>
+              </div>
+              <input type="submit" value="Register" className="btn btn-main btn-rounded w-100 mb-3" />
+            </>
+          )}
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};

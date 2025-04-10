@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   FiHome, 
   FiUsers, 
@@ -15,6 +15,10 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Layout.css';  // Add custom styles for hospital admin
 import Image from 'next/image';
+import { userSession } from '@/Helpers/userSession';
+import { FaHandHoldingMedical, FaUserAlt } from 'react-icons/fa';
+import { TbNewSection } from 'react-icons/tb';
+import { BiSolidInjection } from 'react-icons/bi';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,20 +26,53 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sideNav, setSideNav] = useState([]); 
   const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [data,setData] = useState([]);
+  const userData=userSession();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  const menuItems = [
-    { name: 'dashboard', icon: <FiHome />, label: 'Dashboard' },
-    { name: 'patients', icon: <FiUsers />, label: 'Patients' },
-    { name: 'appointments', icon: <FiCalendar />, label: 'Appointments' },
-    { name: 'bills', icon: <FiFileText />, label: 'Bills' },
-    { name: 'inventory', icon: <FiPackage />, label: 'Inventory' },
-    { name: 'settings', icon: <FiSettings />, label: 'Settings' },
+  const adminMenu: any = [
+    {
+      title: "User List",
+      link: "/admin-userlist",
+      icon: <FaUserAlt />,
+    },
+    {
+      title: "Department",
+      link: "/admin-department",
+      icon: <TbNewSection />,
+    },
   ];
+  const doctorMenu: any = [
+    {
+      title: "Appointments",
+      link: "/doctor-apprequest",
+      icon: <BiSolidInjection/>,
+    },
+  ];
+  const patientMenu: any = [
+    {
+      title: "Appointment",
+      link: "/patient-appointment",
+      icon: <FaHandHoldingMedical />,
+    },
+    
+  ];
+
+  useEffect(() => {
+    if(userData?.userType=='admin'){
+      setSideNav(adminMenu)
+    }else if(userData?.userType=='patient'){
+      setSideNav(patientMenu)
+    }
+    else if(userData?.userType=='doctor'){
+      setSideNav(doctorMenu)
+    }
+  }, [userData]);
 
   return (
     <div className="admin-container">
@@ -48,7 +85,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </button>
         </div>
         <ul className="sidebar-menu">
-          {menuItems.map((item) => (
+          {sideNav.map((item:any) => (
             <li 
               key={item.name}
               className={activeMenu === item.name ? 'active' : ''}

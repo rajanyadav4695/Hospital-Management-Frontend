@@ -1,8 +1,7 @@
 "use client"; 
-import { Provider } from "react-redux";
+import { Provider } from "react-redux"; 
 import { PersistGate } from "redux-persist/integration/react"; 
-import { persistor, store } from "@/Redux/slices/store";
-
+import { store, persistor } from "@/Redux/store"; 
 // Redux provider component 
 export default function ReduxProvider({ children }: { children: 
 React.ReactNode }) { 

@@ -1,4 +1,6 @@
+"use client"
 import React from 'react'
+import CountUp from 'react-countup'
 
 const Feedback = () => {
   return (
@@ -10,28 +12,28 @@ const Feedback = () => {
         <div className="col-lg-3 col-md-6 col-sm-6">
           <div className="counter-stat">
             <i className="icofont-doctor" />
-            <span className="h3">58</span>k
+            <span className="h3"><CountUp end={58} duration={5}/></span>k
             <p>Happy People</p>
           </div>
         </div>
         <div className="col-lg-3 col-md-6 col-sm-6">
           <div className="counter-stat">
             <i className="icofont-flag" />
-            <span className="h3">700</span>+
+            <span className="h3"><CountUp end={700} duration={5}/></span>+
             <p>Surgery Comepleted</p>
           </div>
         </div>
         <div className="col-lg-3 col-md-6 col-sm-6">
           <div className="counter-stat">
             <i className="icofont-badge" />
-            <span className="h3">40</span>+
+            <span className="h3"><CountUp end={40} duration={5}/></span>+
             <p>Expert Doctors</p>
           </div>
         </div>
         <div className="col-lg-3 col-md-6 col-sm-6">
           <div className="counter-stat">
             <i className="icofont-globe" />
-            <span className="h3">20</span>
+            <span className="h3"><CountUp end={20} duration={5}/></span>
             <p>Worldwide Branch</p>
           </div>
         </div>

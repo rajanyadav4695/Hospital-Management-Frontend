@@ -18,20 +18,20 @@ confirmpassword: yup.string().required().oneOf([yup.ref('password')], "Passwords
   });
   return (
     <>
-     <div className="row login-row px-3 my-bg-color1">
-      <div className="col-md-4 mx-auto my-bg-color2 text-light my-5 rounded-3  p-5">
-        <h2 className='my-color3 mb-4 fw-bold text-center'>Forget Password</h2>
+     <div className="row loginpage p-3">
+      <div className="col-md-4 mx-auto text-light my-5 rounded-3 border border-1  p-5" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)' }}>
+        <h3 className='my-color3 mb-4 fw-bold text-center font'>Forget Password</h3>
         <form onSubmit={handleSubmit((d)=>console.log(d))}>
        <div className='mb-4'>
-  <input {...register("password")} className='myform-control form-control ps-0 text-light rounded-0 mt-1' placeholder='Enter your password' type="password" id="password"/>
+  <input {...register("password")} className='myform-control form-control ps-0 text-dark rounded-0 mt-1' placeholder='Enter your password' type="password" id="password" style={{ background: 'rgba(255, 255, 255, 0.4)', border: 'none' }}/>
   {errors.password &&  <div className="text-danger fw-bold ">{errors.password?.message}</div>}
 </div>
 <div className='mb-4'>
   
-  <input {...register("confirmpassword")} className='myform-control form-control ps-0 text-light rounded-0 mt-1' placeholder='Confirm your password' type="password" id="confirmpassword"/>
+  <input {...register("confirmpassword")} className='myform-control form-control ps-0 text-dark rounded-0 mt-1' placeholder='Confirm your password' type="password" id="confirmpassword" style={{ background: 'rgba(255, 255, 255, 0.4)', border: 'none' }}/>
   {errors.confirmpassword &&  <div className="text-danger fw-bold ">{errors.confirmpassword?.message}</div>}
 </div>
-        <input type="submit" value="Forget Password" className='w-50 mx-auto d-block text-light my-btn-hover1 btn mt-4 btn my-bg-color1'/>
+        <input type="submit" value="Forget Password" className='btn btn-main btn-rounded w-100 mb-3'/>
     </form>
       </div>
     </div> 

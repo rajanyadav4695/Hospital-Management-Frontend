@@ -6,17 +6,21 @@ import * as yup from 'yup';
 import Link from 'next/link';
 import { userAuthLogin } from '@/Services';
 import { swalFire } from '@/Helpers/swalFire';
-import { FaUser, FaEnvelope, FaLock, FaSignInAlt , FaUserAlt} from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaUserAlt} from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { login } from '@/Redux/slices/authSlice';
 
-const schema = yup
+export const Userlogin = () => {
+  const dispatch=useDispatch();
+  const router=useRouter();
+  const schema = yup
   .object()
   .shape({
     userType: yup.string().oneOf(["admin", "doctor", "patient"], "Invalid User type").required("User type is required"),
     email: yup.string().email("Invalid email address").required("Email is required"),
-    password: yup.string().required().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/, "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"),
+    password: yup.string().required("Password is required").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/, "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"),
   });
-
-export const Userlogin = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
@@ -25,10 +29,21 @@ export const Userlogin = () => {
     const res = await userAuthLogin(data)
     if (res?.code == 200) {
       swalFire("Auth", res.message, "success")
+      dispatch(login(res?.data));
+      if(res?.data?.userType=='admin'){
+        router.push('/admin-userlist')  
+      }else if(res?.data?.userType=='doctor'){
+        router.push('/doctor-userlist')  
+      }
+      else if(res?.data?.userType=='patient'){
+        router.push('/patient-appointment')  
+      }
     } else {
       swalFire("Auth", res.message, "error")
     }
   }
+
+
 
   return (
     <>

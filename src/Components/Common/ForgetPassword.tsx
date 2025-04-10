@@ -17,21 +17,21 @@ export const ForgetPassword = () => {
   })
 
   return (
-    <div className="row login-row px-3 my-bg-color1 loginpage">
-      <div className="col-md-5 mx-auto border border-1 rounded-3 p-5 m-5" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)' }}>
-        <h3 className='mb-4 fw-bold text-center'>Reset Your Password</h3>
+    <div className="row p-3 loginpage">
+      <div className="col-md-4 mx-auto border border-1 rounded-3 p-5 m-5" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)' }}>
+        <h3 className='mb-4 fw-bold text-center font'>Reset Your Password</h3>
         <form onSubmit={handleSubmit((d) => console.log(d))}>
           <div className='mb-2'>
             {/* Label for email */}
-            <label htmlFor="email" className="form-label ">Email Address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <div className="input-group">
               {/* Icon inside input */}
-              <div className="input-group-text text-danger" style={{ background: 'rgba(255, 255, 255, 0.4)', border: 'none' }}>
-                <FaEnvelope />
+              <div className="input-group-text mt-1" style={{ background: 'rgba(255, 255, 255, 0.4)', border: 'none' }}>
+                <FaEnvelope className='font'/>
               </div>
               <input
                 {...register("email")}
-                className='form-control p-2 text-dark rounded-0'
+                className='form-control p-2 text-dark rounded-0 mt-1'
                 placeholder='Enter Your email'
                 type="text"
                 id="email"
@@ -44,7 +44,7 @@ export const ForgetPassword = () => {
           <input
             type="submit"
             value="Reset Password"
-            className='btn btn-main btn-rounded w-100 mb-3'
+            className='btn btn-main btn-rounded w-100 mb-3 mt-2'
           />
         </form>
       </div>
