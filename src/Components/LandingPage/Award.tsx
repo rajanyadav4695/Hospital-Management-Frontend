@@ -15,7 +15,7 @@ const Award = () => {
     <div className="row justify-content-center">
       <div className="col-lg-7 text-center">
         <div className="section-title">
-          <h1>Award winning patient care</h1>
+          <h1 className='font'>Award winning patient care</h1>
           <div className="divider mx-auto my-4" />
           <p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
         </div>

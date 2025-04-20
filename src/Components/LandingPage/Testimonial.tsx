@@ -1,10 +1,26 @@
 "use client";
 import Image from "next/image";
+import Slider from "react-slick";
 
 import React from "react";
 import { RiDoubleQuotesR } from "react-icons/ri";
 
 const Testimonial = () => {
+  const settings = {
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: "linear"
+  };
+  const setting = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2
+  }
   return (
     <div>
       <section className="section testimonial-2 gray-bg">
@@ -25,8 +41,9 @@ const Testimonial = () => {
         </div>
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-8 mx-auto testimonial-wrap-2">
-              <div className="testimonial-block style-2  gray-bg ">
+            <div className="col-lg-10 mx-auto testimonial-wrap-2">
+            <Slider {...setting}>
+              <div className="testimonial-block style-2 ">
                 <div className="testimonial-thumb">
                   <Image
                     src="/test-thumb1.jpg"
@@ -47,7 +64,7 @@ const Testimonial = () => {
                   <RiDoubleQuotesR className="text-lg lightpink float-end" />
                 </div>
               </div>
-              <div className="testimonial-block style-2  gray-bg">
+              <div className="testimonial-block style-2">
                 <div className="testimonial-thumb">
                   <Image
                     src="/test-thumb2.jpg"
@@ -68,7 +85,7 @@ const Testimonial = () => {
                 </div>
                 <RiDoubleQuotesR className="text-lg lightpink float-end" />
               </div>
-              <div className="testimonial-block style-2  gray-bg">
+              <div className="testimonial-block style-2 ">
                 <div className="testimonial-thumb">
                   <Image
                     src="/test-thumb3.jpg"
@@ -89,7 +106,7 @@ const Testimonial = () => {
                 </div>
                 <RiDoubleQuotesR className="text-lg lightpink float-end" />
               </div>
-              {/* <div className="testimonial-block style-2  gray-bg">
+              <div className="testimonial-block style-2 ">
             <div className="testimonial-thumb">
               <Image src="/test-thumb4.jpg"  height={100} width={100} alt='' className="img-fluid" />
             </div>
@@ -102,7 +119,7 @@ const Testimonial = () => {
             </div>
             <RiDoubleQuotesR className='text-lg lightpink float-end'/>
           </div>
-          <div className="testimonial-block style-2  gray-bg">
+          <div className="testimonial-block style-2">
             <div className="testimonial-thumb">
               <Image src="/test-thumb1.jpg" height={100} width={100} alt='' className="img-fluid" />
             </div>
@@ -114,7 +131,8 @@ const Testimonial = () => {
               </p>
             </div>
             <RiDoubleQuotesR className='text-lg lightpink float-end'/>
-          </div> */}
+          </div>
+          </Slider>
             </div>
           </div>
         </div>
@@ -136,14 +154,15 @@ const Testimonial = () => {
           </div>
         </div>
         <div className="container">
-          <div className="row clients-logo">
+          <div className="row clients-logo justify-content-center">
+          <Slider {...settings}>
             <div className="col-lg-2">
               <div className="client-thumb">
                 <Image
                   src="/1.png"
                   alt=""
-                  height={100}
-                  width={100}
+                  height={150}
+                  width={150}
                   className="img-fluid"
                 />
               </div>
@@ -153,8 +172,8 @@ const Testimonial = () => {
                 <Image
                   src="/2.png"
                   alt=""
-                  height={100}
-                  width={100}
+                  height={150}
+                  width={150}
                   className="img-fluid"
                 />
               </div>
@@ -164,8 +183,8 @@ const Testimonial = () => {
                 <Image
                   src="/3.png"
                   alt=""
-                  height={100}
-                  width={100}
+                  height={150}
+                  width={150}
                   className="img-fluid"
                 />
               </div>
@@ -175,8 +194,8 @@ const Testimonial = () => {
                 <Image
                   src="/4.png"
                   alt=""
-                  height={100}
-                  width={100}
+                  height={150}
+                  width={150}
                   className="img-fluid"
                 />
               </div>
@@ -186,8 +205,52 @@ const Testimonial = () => {
                 <Image
                   src="/5.png"
                   alt=""
-                  height={100}
-                  width={100}
+                  height={150}
+                  width={150}
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+            <div className="col-lg-2">
+              <div className="client-thumb">
+                <Image
+                  src="/6.png"
+                  alt=""
+                  height={150}
+                  width={150}
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+            <div className="col-lg-2">
+              <div className="client-thumb">
+                <Image
+                  src="/3.png"
+                  alt=""
+                  height={150}
+                  width={150}
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+            <div className="col-lg-2">
+              <div className="client-thumb">
+                <Image
+                  src="/4.png"
+                  alt=""
+                  height={150}
+                  width={150}
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+            <div className="col-lg-2">
+              <div className="client-thumb">
+                <Image
+                  src="/5.png"
+                  alt=""
+                  height={150}
+                  width={150}
                   className="img-fluid"
                 />
               </div>
@@ -203,55 +266,10 @@ const Testimonial = () => {
                 />
               </div>
             </div>
-            <div className="col-lg-2">
-              <div className="client-thumb">
-                <Image
-                  src="/3.png"
-                  alt=""
-                  height={100}
-                  width={100}
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-lg-2">
-              <div className="client-thumb">
-                <Image
-                  src="/4.png"
-                  alt=""
-                  height={100}
-                  width={100}
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-lg-2">
-              <div className="client-thumb">
-                <Image
-                  src="/5.png"
-                  alt=""
-                  height={100}
-                  width={100}
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-lg-2">
-              <div className="client-thumb">
-                <Image
-                  src="/6.png"
-                  alt=""
-                  height={100}
-                  width={100}
-                  className="img-fluid"
-                />
-              </div>
-            </div>
+            </Slider>
           </div>
         </div>
       </section>
-
-      <section className="slick"></section>
     </div>
   );
 };

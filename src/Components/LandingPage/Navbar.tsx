@@ -1,10 +1,70 @@
+"use client"
+import "bootstrap/dist/js/bootstrap.bundle.js"
 import React from 'react';
 import Image from 'next/image';
 import { IoIosMail } from 'react-icons/io';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IoCall } from 'react-icons/io5';
+import Link from 'next/link';
 
 const Navbar = () => {
+  const nav=[{
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/",
+    name:"Home"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/about",
+    name:"About"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/services",
+    name:"Services"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/dept",
+     name:"Department"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/doctor",
+     name:"Doctor"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/blog",
+     name:"Blog"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/contact",
+     name:"Contact"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/register",
+     name:"Register"
+  },
+  {
+    liClass:"nav-item px-2 fw-semibold",
+    aClass:"nav-link",
+    href:"/login",
+     name:"Login"
+  },
+  
+
+]
   return (
     <div>
       <header>
@@ -63,107 +123,19 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto">
-                <li className="nav-item active">
-                  <a className="nav-link" href="index.html">
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/about">
-                    About
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="service.html">
-                    Services
-                  </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="dropdown02"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Department
-                  </a>
-                  <ul className="dropdown-menu" aria-labelledby="dropdown02">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Departments
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="department-single.html">
-                        Department Single
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="doctor.html"
-                    id="dropdown03"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Doctors
-                  </a>
-                  <ul className="dropdown-menu" aria-labelledby="dropdown03">
-                    <li>
-                      <a className="dropdown-item" href="doctor.html">
-                        Doctors
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="doctor-single.html">
-                        Doctor Single
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="appoinment.html">
-                        Appoinment
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="blog-sidebar.html"
-                    id="dropdown05"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Blog
-                  </a>
-                  <ul className="dropdown-menu" aria-labelledby="dropdown05">
-                    <li>
-                      <a className="dropdown-item" href="blog-sidebar.html">
-                        Blog with Sidebar
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="blog-single.html">
-                        Blog Single
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="contact.html">
-                    Contact
-                  </a>
-                </li>
+              {nav?.map((items, index) => (
+  <li className={items.liClass} key={items.href || index}>
+    <Link className={items.aClass} href={items.href}>
+      {items.name}
+    </Link>
+  </li>
+))}
+
               </ul>
             </div>
           </div>
         </nav>
+       
       </header>
     </div>
   );

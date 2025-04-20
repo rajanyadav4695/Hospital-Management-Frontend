@@ -5,4 +5,4 @@ key: "root",
 storage, 
 whitelist: ["auth", "counter"], 
 }; 
-export default persistConfig; 
+export default persistConfig;

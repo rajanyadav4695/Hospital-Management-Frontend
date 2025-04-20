@@ -48,7 +48,7 @@ export const UserRegister = () => {
   const [userType, setUserType] = useState("patient");
   const isDoctor = userType === "doctor";
   const userData = userSession();
-  const token = userData.jwtToken;
+  const token = userData?.jwtToken;;
 
   const getDepartment = async () => {
     const result = await getDepartmentService(token);
@@ -111,106 +111,123 @@ export const UserRegister = () => {
 
           {/* Patient Form */}
           {userType === "patient" && (
-            <>
-              <div className="mb-4 input-group">
-                <span className="input-group-text"><FaUser className="font fb"/></span>
-                <input {...register("name")} className="form-control fb" placeholder="Enter your name" />
-              </div>
-              {errors.name && <div className="text-danger fw-bold">{errors.name.message}</div>}
+  <div className="row">
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text"><FaUser className="font fb"/></span>
+      <input {...register("name")} className="form-control fb" placeholder="Enter your name" />
+      {errors.name && <div className="text-danger fw-bold">{errors.name.message}</div>}
+    </div>
 
-              <div className="mb-4 input-group">
-                <span className="input-group-text"><FaEnvelope className="font fb"/></span>
-                <input {...register("email")} className="form-control fb" placeholder="Enter your email" />
-              </div>
-              {errors.email && <div className="text-danger fw-bold">{errors.email.message}</div>}
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text"><FaEnvelope className="font fb"/></span>
+      <input {...register("email")} className="form-control fb" placeholder="Enter your email" />
+      {errors.email && <div className="text-danger fw-bold">{errors.email.message}</div>}
+    </div>
 
-              <div className="mb-4 input-group">
-                <span className="input-group-text"><FaTransgender className="font fb"/></span>
-                <select {...register("gender")} className="form-control bg-transparent font fb">
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              {errors.gender && <div className="text-danger fw-bold">{errors.gender.message}</div>}
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text"><FaTransgender className="font fb"/></span>
+      <select {...register("gender")} className="form-control bg-transparent font fb">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      {errors.gender && <div className="text-danger fw-bold">{errors.gender.message}</div>}
+    </div>
 
-              <div className="mb-4 input-group">
-                <span className="input-group-text"><FaPhone className="font"/></span>
-                <input {...register("contact")} className="form-control fb" placeholder="Enter contact number "/>
-              </div>
-              {errors.contact && <div className="text-danger fw-bold">{errors.contact.message}</div>}
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text"><FaPhone className="font"/></span>
+      <input {...register("contact")} className="form-control fb" placeholder="Enter contact number" />
+      {errors.contact && <div className="text-danger fw-bold">{errors.contact.message}</div>}
+    </div>
 
-              <div className="mb-4 input-group">
-                <span className="input-group-text font">Age</span>
-                <input {...register("age")} className="form-control fb" type="number" placeholder="Enter your age" />
-              </div>
-              {errors.age && <div className="text-danger fw-bold">{errors.age.message}</div>}
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text font">Age</span>
+      <input {...register("age")} className="form-control fb" type="number" placeholder="Enter your age" />
+      {errors.age && <div className="text-danger fw-bold">{errors.age.message}</div>}
+    </div>
 
-              <div className="mb-4 input-group">
-                <span className="input-group-text"><MdOutlineAttachFile className="font"/></span>
-                <input {...register("profile")} className="form-control fb" type="file" />
-              </div>
-              {errors.profile && <div className="text-danger fw-bold">{errors.profile.message}</div>}
+    <div className="col-md-6 mb-4 input-group w-50">
+      <span className="input-group-text"><MdOutlineAttachFile className="font"/></span>
+      <input {...register("profile")} className="form-control fb" type="file" />
+      {errors.profile && <div className="text-danger fw-bold">{errors.profile.message}</div>}
+    </div>
 
-              <div className="mb-4">
-                <Link href="/login" className="text-decoration-none font small">Already have an Account?</Link>
-              </div>
+    <div className="col-12 mb-4">
+      <Link href="/login" className="text-decoration-none font small">Already have an Account?</Link>
+    </div>
 
-              <input type="submit" value="Register" className="btn btn-main btn-rounded w-100 mb-3" />
-            </>
-          )}
+    <div className="col-12">
+      <input type="submit" value="Register" className="btn btn-main btn-rounded w-100 mb-3" />
+    </div>
+  </div>
+)}
+
 
           {/* Doctor Form */}
           {userType === "doctor" && (
             <>
               <div className="row">
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaUser className="font"/></span>
                   <input {...register("name")} className="form-control fb" placeholder="Enter your name" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><GiDoctorFace className="font"/></span>
                   <select {...register("departmentId")} className="form-control font fb">
                     <option value="">Select Department</option>
-                    {department.map((item: any) => (
-                      <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
+                    {department.map((item:any, idx)=>{
+                      return <option className="t" key={idx} value={item?.id}>{item?.name}</option>
+                     })}
                   </select>
+                  {errors.departmentId && (
+                      <div className="text-danger fw-bold">
+                        {errors.departmentId?.message}
+                      </div>
+                    )}
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaBriefcase className="font"/></span>
                   <input {...register("specialist")} className="form-control fb" placeholder="Specialization" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaGraduationCap className="font"/></span>
                   <input {...register("qualifications")} className="form-control fb" placeholder="Qualifications" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaPhone className="font"/></span>
                   <input {...register("contact")} className="form-control fb" placeholder="Contact number" />
                 </div>
+                <div className="col-md-6 mb-4 input-group w-50">
+                  <span className="input-group-text"><FaTransgender className="font"/></span>
+                  <select {...register("gender")} className="form-control fb">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text font">Yrs</span>
                   <input {...register("experience")} className="form-control fb" type="number" placeholder="Experience" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaMoneyBillWave className="font"/></span>
                   <input {...register("fees")} className="form-control fb" type="number" placeholder="Fees" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaMapMarkerAlt className="font"/></span>
                   <input {...register("address")} className="form-control fb" placeholder="Address" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
+                <div className="col-md-6 mb-4 input-group w-50">
                   <span className="input-group-text"><FaEnvelope className="font"/></span>
                   <input {...register("email")} className="form-control fb" placeholder="Email" />
                 </div>
@@ -220,15 +237,7 @@ export const UserRegister = () => {
                   <input {...register("profile")} className="form-control fb" type="file" />
                 </div>
 
-                <div className="col-md-6 mb-4 input-group">
-                  <span className="input-group-text"><FaTransgender className="font"/></span>
-                  <select {...register("gender")} className="form-control fb">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
+                
 
                 <div className="col-md-12 mb-4 font">
                   {days.map((day, index) => (

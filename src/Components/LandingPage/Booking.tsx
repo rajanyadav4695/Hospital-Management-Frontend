@@ -9,7 +9,7 @@ const Booking = () => {
     <div className="row align-items-center">
       <div className="col-lg-6 ">
         <div className="appoinment-content">
-          <Image src="/img-3.jpg" height={400} width={200} alt="" className='img-fluid'/>
+          <Image src="/img-3.jpg" height={1000} width={1000} alt="" className='img-fluid'/>
           <div className="emergency">
             <h2 className="text-lg"><i className="icofont-phone-circle text-lg" />+23 345 67980</h2>
           </div>

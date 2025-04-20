@@ -1,4 +1,4 @@
-"use client";
+
 import AdminUserlistCom from "@/Components/Admin/AdminUserlistCom";
 import Layout from "@/Components/Common/Layout";
 

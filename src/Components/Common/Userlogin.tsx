@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { userAuthLogin } from '@/Services';
 import { swalFire } from '@/Helpers/swalFire';
 import { FaUser, FaEnvelope, FaLock, FaUserAlt} from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/Redux/slices/authSlice';
+import { useRouter } from 'next/navigation';
 
-export const Userlogin = () => {
+const Userlogin = () => {
   const dispatch=useDispatch();
   const router=useRouter();
+
   const schema = yup
   .object()
   .shape({
@@ -33,7 +34,7 @@ export const Userlogin = () => {
       if(res?.data?.userType=='admin'){
         router.push('/admin-userlist')  
       }else if(res?.data?.userType=='doctor'){
-        router.push('/doctor-userlist')  
+        router.push('/doctor-apprequest')  
       }
       else if(res?.data?.userType=='patient'){
         router.push('/patient-appointment')  
@@ -42,7 +43,10 @@ export const Userlogin = () => {
       swalFire("Auth", res.message, "error")
     }
   }
-
+  const test=useSelector((state:any)=>{
+    console.log(state);
+    
+  })
 
 
   return (
@@ -150,3 +154,5 @@ export const Userlogin = () => {
     </>
   );
 };
+
+export default Userlogin;

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import "@/app/globals.css";
 
 
 const schema = yup.object().shape({
@@ -44,9 +45,10 @@ const AdminDepartment = () => {
 
   return (
     <>
-      <div className="row bg-light py-5" >
-        <div className="col-sm-6 mx-auto mt-5 p-5 rounded-3 department">
-        <h2 className="mb-3 text-center" style={{color:" #1A237E"}}>Department Management</h2>
+      <div className="row py-3" >
+      <h2 className="mb-3 text-center font">Department Management</h2>
+        <div className="col-sm-10 mx-auto mt-5 p-5 rounded-3 card">
+        <h3 className="mb-3 text-center font">Add New Department</h3>
      
             <form
               onSubmit={handleSubmit(submit)}
@@ -54,22 +56,22 @@ const AdminDepartment = () => {
             >
               <input
                 {...register("name")}
-                className="form-control me-2 "
+                className="form-control me-2 mt-1"
                 type="text"
-                placeholder="Enter department Name"
+                placeholder="Enter Department Name"
                 aria-label="Add"
               />
-              <button className="btn btnhover text-light " style={{background:" #1A237E"}} type="submit">
-              Add Department
+              <button className="btn btn-main p-2" type="submit">
+              Submit
               </button>{" "}
               <br />
             </form>
         {errors.name && <p className="text-danger">{errors.name.message}</p>}
         </div>
       </div>
-      <div className="row bg-light py-3">
-          <div className="col-sm-6 p-3 department mx-auto ">
-          <h2 className="my-3 text-center" style={{color:" #1A237E"}}> Department List</h2>
+      <div className="row py-3">
+          <div className="col-sm-10 p-3 department mx-auto card">
+          <h2 className="my-3 text-center font"> Department List</h2>
           <table className="table" >
             <thead className="thead">
           <tr >
