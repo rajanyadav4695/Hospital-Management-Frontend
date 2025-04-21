@@ -48,12 +48,15 @@ export const UserRegister = () => {
   const [userType, setUserType] = useState("patient");
   const isDoctor = userType === "doctor";
   const userData = userSession();
-  const token = userData?.jwtToken;;
+  const token = userData?.jwtToken;
 
   const getDepartment = async () => {
     const result = await getDepartmentService(token);
+    console.log(result);
     setDepartment(result?.data);
   };
+  console.log(department, "department");
+  
 
   useEffect(() => {
     getDepartment();
@@ -81,6 +84,18 @@ export const UserRegister = () => {
         formData.append(key, data[key]);
       }
     }
+    //Append the other fields to the formData   formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("contact", data.contact);
+    formData.append("gender", data.gender);
+    formData.append("age", data.age);
+    formData.append("userType", data.userType);
+    formData.append("departmentId", data.departmentId);
+    formData.append("specialist", data.specialist);
+    formData.append("qualifications", data.qualifications);
+    formData.append("experience", data.experience);
+    formData.append("fees", data.fees);
+    formData.append("address", data.address);
 
     if (data.profile && data.profile[0]) {
       formData.append("profile", data.profile[0]);
@@ -178,7 +193,7 @@ export const UserRegister = () => {
                   <select {...register("departmentId")} className="form-control font fb">
                     <option value="">Select Department</option>
                     {department.map((item:any, idx)=>{
-                      return <option className="t" key={idx} value={item?.id}>{item?.name}</option>
+                      return <option key={idx} value={item?.id}>{item?.name}</option>
                      })}
                   </select>
                   {errors.departmentId && (
