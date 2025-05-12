@@ -29,12 +29,8 @@ export const adminAddDepartmentService = async (payload: any,token:any) => {
     return response?.data
 }
 
-export const getDepartmentService = async (token:any) => {
-    const response = await axios.get(`${BASEURL}/v1/api/admin-get-department`,{
-        headers:{
-            Authorization:`Bearer ${token}`
-        }
-    });
+export const getDepartmentService = async () => {
+    const response = await axios.get(`${BASEURL}/v1/api/doctor-get-department`);
     return response?.data
 }
 

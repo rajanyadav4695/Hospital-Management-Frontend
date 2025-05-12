@@ -4,6 +4,7 @@ import React from 'react'
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa";
+import { IoLogoInstagram } from "react-icons/io";
 
 const Footer = () => {
   return (
@@ -24,9 +25,10 @@ const Footer = () => {
           </div>
           <p>Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.</p>
           <ul className="list-inline footer-socials mt-4">
-            <li className="list-inline-item"><a href="https://www.facebook.com"><FaFacebookF className='fs-5'/></a></li>
-            <li className="list-inline-item"><a href="https://twitter.com"><FaXTwitter className='fs-5'/></a></li>
-            <li className="list-inline-item"><a href="https://www.youtube.com"><FaYoutube className='fs-5'/></a></li>
+            <li className="list-inline-item"><a href="https://www.facebook.com"><FaFacebookF className='fs-5 text-primary'/></a></li>
+            <li className="list-inline-item"><a href="https://twitter.com"><FaXTwitter className='fs-5 text-dark'/></a></li>
+            <li className="list-inline-item"><a href="https://www.youtube.com"><FaYoutube className='fs-5 text-danger'/></a></li>
+            <li className="list-inline-item"><a href="https://www.instagram.com"><IoLogoInstagram className='fs-5 text-danger'/></a></li>
           </ul>
         </div>
       </div>
@@ -79,25 +81,10 @@ const Footer = () => {
     </div>
     <div className="footer-btm py-4 mt-5">
       <div className="row align-items-center justify-content-between">
-        <div className="col-lg-6">
+        <div className="col-lg-6 mx-auto">
           <div className="copyright">
             © Copyright Reserved to <span className="text-color">Novena</span> by <a href="#" target="_blank">Rony</a>
           </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="subscribe-form text-lg-right mt-5 mt-lg-0">
-            <form action="#" className="subscribe">
-              <input type="text" className="form-control" placeholder="Your Email address" />
-              <a href="#" className="btn btn-main-2 btn-round-full">Subscribe</a>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-lg-4">
-          <a className="backtop js-scroll-trigger" href="#top">
-            <i className="icofont-long-arrow-up" />
-          </a>
         </div>
       </div>
     </div>

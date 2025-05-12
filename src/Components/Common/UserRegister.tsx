@@ -48,10 +48,11 @@ export const UserRegister = () => {
   const [userType, setUserType] = useState("patient");
   const isDoctor = userType === "doctor";
   const userData = userSession();
-  const token = userData?.jwtToken;
+  const token = userData?.token || null;
+
 
   const getDepartment = async () => {
-    const result = await getDepartmentService(token);
+    const result = await getDepartmentService();
     console.log(result);
     setDepartment(result?.data);
   };
