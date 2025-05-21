@@ -29,6 +29,24 @@ export const adminAddDepartmentService = async (payload: any,token:any) => {
     return response?.data
 }
 
+export const deleteDepartmentService = async (id: any, token: any) => {
+    const response = await axios.delete(`${BASEURL}/v1/api/admin-delete-department/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response?.data;
+  };
+
+  export const updateDepartmentService = async (id: any, payload: any, token: any) => {
+    const response = await axios.put(`${BASEURL}/v1/api/admin-update-department/${id}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response?.data;
+  };
+  
 export const getDepartmentService = async () => {
     const response = await axios.get(`${BASEURL}/v1/api/doctor-get-department`);
     return response?.data
